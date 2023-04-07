@@ -11,6 +11,7 @@
         font-weight: 400;
         position: fixed;
         left: 0;
+        z-index: 4;
     }
 
     .sidebar .icon {

@@ -1,0 +1,8 @@
+$.ajax({
+    url: "./form-action/user-get-details",
+    type: "post",
+    data: "type=username",
+    success: function(result) {
+        usernames = $.parseJSON(result);
+    },
+});

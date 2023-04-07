@@ -54,9 +54,9 @@ if (isset($_POST['done'])) {
     $start_date_time = date('Y-m-d H:i:s', strtotime("$date $start_time_in_24_hour_format"));
 
 
-    $sql = "INSERT INTO `appointment` (`doctor`, `user`, `appointment_date`, `appointment_time`, `booked_at_date`, `booked_at_datetime`, `start_url`, `join_url`, `start_date_time`) VALUES ('$doctor_username', '$user_username', '$date', '$timeslot', '" . date("Y-m-d") . "', '" . date("Y-m-d H:i:s") . "', '". $result->start_url ."', '". $result->join_url ."', '". $start_date_time . "');";
+    $sql1 = "INSERT INTO `appointment` (`doctor`, `user`, `appointment_date`, `appointment_time`, `booked_at_date`, `booked_at_datetime`, `start_url`, `join_url`, `start_date_time`) VALUES ('$doctor_username', '$user_username', '$date', '$timeslot', '" . date("Y-m-d") . "', '" . date("Y-m-d H:i:s") . "', '". $result->start_url ."', '". $result->join_url ."', '". $start_date_time . "');";
 
-    mysqli_query($conn, $sql);
+    $result1 = mysqli_query($conn, $sql1);
 
     include('../smtp/PHPMailerAutoload.php');
 
@@ -80,10 +80,15 @@ if (isset($_POST['done'])) {
 
     emailSend($receiverEmail, $html, $subject);
 
+    if ($result1){
+        $_SESSION['success'] = 'check-email';
+    }else{
+        $_SESSION['failure'] = 'server-error';
+    }
     
     if (isset($result->id)) {
-        header('Location: ../user-dashboard-appointment?success=check-email');
+        header('Location: ../user-dashboard-appointment');
     } else {
-        header('Location: ../user-dashboard-appointment?failure=server-error');
+        header('Location: ../user-dashboard-appointment');
     }
 }

@@ -5,7 +5,7 @@
     <?php
     session_start();
 
-    $title = 'Home';
+    $title = 'Unified Healthcare Interface';
     include './includes/header.php'
     ?>
 

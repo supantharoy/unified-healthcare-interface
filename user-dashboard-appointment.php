@@ -48,6 +48,7 @@
         .dashboard {
             margin-left: 240px;
             margin-top: 65px;
+            z-index: 1;
         }
 
         .heading {
@@ -64,7 +65,6 @@
             width: 800px;
             margin: 0 auto;
             margin-bottom: 100px;
-
         }
 
         .accordion-header button {
@@ -103,14 +103,24 @@
             height: 140px;
         }
 
+        .doctor .doctor-image{
+            width: 120px;
+            text-align: center;
+        }
+
         .doctor .doctor-image img {
             height: 120px;
-            margin-right: 20px;
         }
 
         .doctor .doctor-details {
             width: 200px;
             margin-right: 20px;
+            margin-left: 20px;
+        }
+
+        .doctor .book{
+            text-align: center;
+            width: 150px;
         }
 
         .availability {
@@ -126,10 +136,6 @@
             text-transform: uppercase;
         }
 
-        .star {
-            margin-bottom: 5px;
-        }
-
         .doctor #join-appointment {
             margin-top: 10px;
             background-color: #0a8aca;
@@ -138,6 +144,11 @@
         .doctor #join-appointment:hover,
         .doctor #join-appointment:active {
             background-color: #056ea2;
+        }
+
+        .star {
+            text-align: center;
+            margin-bottom: 5px;
         }
 
         .stars-outer {
@@ -164,6 +175,41 @@
             content: "\f005 \f005 \f005 \f005 \f005";
             color: #f8ce0b;
         }
+
+        .ratingValue {
+            position: relative;
+            display: block;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .range {
+            width: 100px;
+            height: 10px;
+            -webkit-appearance: none;
+            background: #d8d8d8;
+            outline: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: inset 0 0 5px #d8d8d8;
+        }
+
+        .range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #0D6EFD;
+            cursor: pointer;
+            border: 1px solid #333;
+            box-shadow: -407px 0 0 400px #0D6EFD;
+        }
+
+        .send-feedback {
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
     </style>
 </head>
 
@@ -171,8 +217,8 @@
 
     <?php
 
-    if (isset($_GET['success'])) {
-        if ($_GET['success'] == 'check-email') { ?>
+    if (isset($_SESSION['success'])) {
+        if ($_SESSION['success'] == 'check-email') { ?>
 
             <div class="alert-container" style="width: 460px;" id="mobile-alert-container">
                 <div class="alert alert-success alert-dismissible fade show">
@@ -183,6 +229,8 @@
     <?php
         }
     }
+
+    unset($_SESSION['success']);
     ?>
 
     <div class="dashboard">
@@ -195,7 +243,6 @@
                         <strong>PAST</strong>
                     </button>
                 </h2>
-                <?php $c = 0; ?>
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse">
                     <div class="accordion-body">
                         <div class="doctor-container">
@@ -235,14 +282,28 @@
                                             <span class="appointment-date"><strong>Date: </strong><?php echo date("d-m-Y", strtotime($row['appointment_date'])) ?></span></br>
                                             <span class="appointment-date"><strong>Time: </strong><?php echo $row2['time'] ?></span></br>
                                         </div>
-                                        <input type="hidden" value="<?php echo $row1['username'] . "-" . $c; ?>" class="username">
-                                        <div class="book <?php echo $row1['username'] . "-" . $c; ?>">
-                                            <?php $c++; ?>
-                                            <div class="star">
-                                                <div class="stars-outer">
-                                                    <div class="stars-inner"></div>
-                                                </div>
+                                        <div class="book">
+                                            <div class="star" id="<?php echo $row['id'] ?>">
+
+                                                <?php if ($row['rating'] == 0) { ?>
+
+                                                    <div>
+                                                        <span id="<?php echo $row['id'] ?>-ratingValue" class="ratingValue">1 / 5</span>
+                                                        <input class="range" type="range" value="1" id="<?php echo $row['id'] ?>-slider" min="1" max="5" onChange="rangeSlide(this.value, '<?php echo $row['id'] ?>-ratingValue')" onmousemove="rangeSlide(this.value, '<?php echo $row['id'] ?>-ratingValue')"></input>
+                                                    </div>
+                                                    <button class="btn btn-primary send-feedback" data-id="<?php echo $row['id'] ?>">SEND FEEDBACK</button>
+
+                                                <?php } else { ?>
+
+                                                    <div class="stars-outer">
+                                                        <div class="stars-inner" style="width:<?php echo $row['rating'] / 5 * 100 ?>%"></div>
+                                                    </div>
+
+                                                <?php } ?>
+
                                             </div>
+
+
                                         </div>
                                     </div>
                                 <?php } ?>
@@ -296,16 +357,13 @@
                                             <span class="appointment-date"><strong>Date: </strong><?php echo date("d-m-Y", strtotime($row['appointment_date'])) ?></span></br>
                                             <span class="appointment-date"><strong>Time: </strong><?php echo $row2['time'] ?></span></br>
                                         </div>
-                                        <input type="hidden" value="<?php echo $row1['username'] . "-" . $c; ?>" class="username">
-                                        <div class="book <?php echo $row1['username'] . "-" . $c; ?>">
+                                        <div class="book">
                                             <div class="star">
                                                 <div class="stars-outer">
-                                                    <div class="stars-inner"></div>
+                                                    <div class="stars-inner" style="width:<?php echo $row1['ratings'] / 5 * 100 ?>%"></div>
                                                 </div>
                                             </div>
                                             <?php
-
-                                            $c++;
 
                                             if ($row1['available'] == 1) {
                                             ?>
@@ -372,16 +430,13 @@
                                             <span class="appointment-date"><strong>Date: </strong><?php echo date("d-m-Y", strtotime($row['appointment_date'])) ?></span></br>
                                             <span class="appointment-date"><strong>Time: </strong><?php echo $row2['time'] ?></span></br>
                                         </div>
-                                        <input type="hidden" value="<?php echo $row1['username'] . "-" . $c; ?>" class="username">
-                                        <div class="book <?php echo $row1['username'] . "-" . $c; ?>">
+                                        <div class="book">
                                             <div class="star">
                                                 <div class="stars-outer">
-                                                    <div class="stars-inner"></div>
+                                                    <div class="stars-inner" style="width:<?php echo $row1['ratings'] / 5 * 100 ?>%"></div>
                                                 </div>
                                             </div>
                                             <?php
-
-                                            $c++;
 
                                             if ($row1['available'] == 1) {
                                             ?>
@@ -407,38 +462,75 @@
     </div>
 
     <script>
-        username_inputs = document.getElementsByClassName("username");
-
-        let usernames = [];
-
-        for (let i = 0; i < username_inputs.length; i++) {
-            usernames.push(username_inputs[i].value);
+        // Ratings input
+        function rangeSlide(value, rating_id) {
+            document.getElementById(rating_id).innerHTML = value + " / 5";
         }
 
-        console.log(usernames)
+        $('.send-feedback').click(function() {
 
-        var values = [];
-        for (i = 0; i < usernames.length; i++) {
-            var precision = 100; // 2 decimals
-            var randomnum = Math.floor(Math.random() * (5 * precision - 1 * precision) + 1 * precision) / (1 * precision);
+            // console.log($(this).data("id"));
+            // console.log($("#" + $(this).data("id") + "-slider").val())
 
-            values.push(randomnum);
-        }
+            let id = $(this).data("id");
+            let rating = $("#" + $(this).data("id") + "-slider").val();
+
+            $.ajax({
+                url: "./form-action/send-appointment-rating",
+                type: "post",
+                data: {
+                    id: id,
+                    rating: rating
+                },
+                success: function(result) {
+                    // console.log($.parseJSON(result));
+
+                    // rating_percentage = rating / 5 * 100;
+
+                    // $("#" + id).html(`<div class="stars-outer"> <div class="stars-inner" style="width:${rating_percentage}%"> </div> </div>`);
+
+                    $("#panelsStayOpen-collapseOne").load(location.href + " #panelsStayOpen-collapseOne>*", "");
+
+                    $("#panelsStayOpen-collapseTwo").load(location.href + " #panelsStayOpen-collapseTwo>*", "");
+
+                    $("#panelsStayOpen-collapseThree").load(location.href + " #panelsStayOpen-collapseThree>*", "");
+
+                },
+            });
+        });
+
+        // appointment_id_inputs = document.getElementsByClassName("username");
+
+        // let usernames = [];
+
+        // for (let i = 0; i < appointment_id_inputs.length; i++) {
+        //     appointment_ids.push(appointment_id_inputs[i].value);
+        // }
+
+        // // console.log(usernames)
+
+        // var values = [];
+        // for (i = 0; i < appointment_ids.length; i++) {
+        //     var precision = 100; // 2 decimals
+        //     var randomnum = Math.floor(Math.random() * (5 * precision - 1 * precision) + 1 * precision) / (1 * precision);
+
+        //     values.push(randomnum);
+        // }
 
 
-        // var values = [2.54, 2.83, 2.35, 2.72, 4.88, 4.56, 4.49, 2.32, 4.47, 4.24, 2.66, 2.76, 3.51, 3.51, 3.09, 2.17, 2.57, 2.74];
-        var ratings = {};
-        usernames.forEach((key, i) => ratings[key] = values[i]);
+        // // var values = [2.54, 2.83, 2.35, 2.72, 4.88, 4.56, 4.49, 2.32, 4.47, 4.24, 2.66, 2.76, 3.51, 3.51, 3.09, 2.17, 2.57, 2.74];
+        // var ratings = {};
+        // usernames.forEach((key, i) => ratings[key] = values[i]);
 
-        console.log(ratings)
+        // // console.log(ratings)
 
-        const starTotal = 5;
+        // const starTotal = 5;
 
-        for (const rating in ratings) {
-            console.log(ratings[rating], rating);
-            const starPercentage = `${(ratings[rating] / starTotal) * 100}%`;
-            document.querySelector(`.${rating} .star .stars-inner`).style.width = starPercentage;
-        }
+        // for (const rating in ratings) {
+        //     // console.log(ratings[rating], rating);
+        //     const starPercentage = `${(ratings[rating] / starTotal) * 100}%`;
+        //     // document.querySelector(`.${rating} .star .stars-inner`).style.width = starPercentage;
+        // }
     </script>
 </body>
 

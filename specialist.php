@@ -189,7 +189,7 @@
                 <h1><?php echo $row['specialization'] ?></h1>
             </div>
 
-            <div class="doctor-container">
+            <div class="doctor-container" id="doctor-container">
                 <?php
 
                 $result = mysqli_query($conn, $sql);
@@ -213,7 +213,7 @@
                         <div class="book <?php echo $row['username'] ?>">
                             <div class="star">
                                 <div class="stars-outer">
-                                    <div class="stars-inner"></div>
+                                    <div class="stars-inner" style="width:<?php echo $row['ratings'] / 5 * 100 ?>%"></div>
                                 </div>
                             </div>
                             <?php
@@ -309,48 +309,48 @@
 
     <script>
         // Retrieving the usernames from the database
-        let usernames;
+        // let usernames;
 
-        var urlParams = window.location.href.split("=")[1];
+        // var urlParams = window.location.href.split("=")[1];
 
-        if (urlParams) {
+        // if (urlParams) {
 
-            $.ajax({
-                url: "./form-action/doctor-get-details",
-                type: "post",
-                data: {
-                    type: "field",
-                    field: urlParams
-                },
-                success: function(result) {
-                    usernames = $.parseJSON(result);
-                    // console.log(usernames.length);
+        //     $.ajax({
+        //         url: "./form-action/doctor-get-details",
+        //         type: "post",
+        //         data: {
+        //             type: "field",
+        //             field: urlParams
+        //         },
+        //         success: function(result) {
+        //             usernames = $.parseJSON(result);
+        //             // console.log(usernames.length);
 
-                    var values = [];
-                    for (i = 0; i < usernames.length; i++) {
-                        var precision = 100; // 2 decimals
-                        var randomnum = Math.floor(Math.random() * (5 * precision - 1 * precision) + 1 * precision) / (1 * precision);
+        //             var values = [];
+        //             for (i = 0; i < usernames.length; i++) {
+        //                 var precision = 100; // 2 decimals
+        //                 var randomnum = Math.floor(Math.random() * (5 * precision - 1 * precision) + 1 * precision) / (1 * precision);
 
-                        values.push(randomnum);
-                    }
+        //                 values.push(randomnum);
+        //             }
 
 
-                    // var values = [2.54, 2.83, 2.35, 2.72, 4.88, 4.56, 4.49, 2.32, 4.47, 4.24, 2.66, 2.76, 3.51, 3.51, 3.09, 2.17, 2.57, 2.74];
-                    var ratings = {};
-                    usernames.forEach((key, i) => ratings[key] = values[i]);
+        //             // var values = [2.54, 2.83, 2.35, 2.72, 4.88, 4.56, 4.49, 2.32, 4.47, 4.24, 2.66, 2.76, 3.51, 3.51, 3.09, 2.17, 2.57, 2.74];
+        //             var ratings = {};
+        //             usernames.forEach((key, i) => ratings[key] = values[i]);
 
-                    console.log(ratings)
+        //             console.log(ratings)
 
-                    const starTotal = 5;
+        //             const starTotal = 5;
 
-                    for (const rating in ratings) {
-                        console.log(ratings[rating], rating);
-                        const starPercentage = `${(ratings[rating] / starTotal) * 100}%`;
-                        document.querySelector(`.${rating} .star .stars-inner`).style.width = starPercentage;
-                    }
-                },
-            });
-        }
+        //             for (const rating in ratings) {
+        //                 console.log(ratings[rating], rating);
+        //                 const starPercentage = `${(ratings[rating] / starTotal) * 100}%`;
+        //                 document.querySelector(`.${rating} .star .stars-inner`).style.width = starPercentage;
+        //             }
+        //         },
+        //     });
+        // }
 
 
         $('.book #book-appointment').click(function() {

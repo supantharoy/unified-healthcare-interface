@@ -218,21 +218,21 @@ date_default_timezone_set("Asia/Kolkata");
             <div class="collapse navbar-collapse" id="navbarColor02">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 font-weight-500" id="nav-ul">
                     <li class="nav-item">
-                        <a class="nav-link <?php if ($title == 'Home')
+                        <a class="nav-link <?php if ($title == 'Unified Healthcare Interface')
                                                 echo "active";
                                             else
                                                 echo "not-active"
                                             ?>" href="./" title="Home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?php if ($title == 'User Login')
+                        <a class="nav-link <?php if (substr( $title, 0, 4 ) === "User")
                                                 echo "active";
                                             else
                                                 echo "not-active"
                                             ?>" href="./user-login" title="User Account">User</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?php if ($title == 'Doctor Login')
+                        <a class="nav-link <?php if (substr($title, 0, 6 ) === "Doctor")
                                                 echo "active";
                                             else
                                                 echo "not-active"
