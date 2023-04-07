@@ -230,7 +230,7 @@
 
                             ?>
                             </br>
-                            <button class="btn btn-primary" id="book-appointment" data-username="<?php echo $row['username'] ?>" <?php if ($row['available'] == 0) { echo "disabled";} ?> >Book Appointment</button>
+                            <button class="btn btn-primary" id="book-appointment" data-username="<?php echo $row['username'] ?>" <?php if ($row['available'] == 0) echo "disabled"; ?>>Book Appointment</button>
 
 
 

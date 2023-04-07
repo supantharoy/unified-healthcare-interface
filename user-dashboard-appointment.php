@@ -18,6 +18,14 @@
     ?>
 
     <style>
+        .navbar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            z-index: 4;
+        }
+
         .alert-container {
             position: absolute;
             left: 240px;
@@ -78,15 +86,6 @@
             justify-content: center;
             align-items: center;
         }
-
-        .navbar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            z-index: 3;
-        }
-
 
         .doctor-container {
             margin: 0px auto 50px;

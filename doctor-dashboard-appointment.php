@@ -18,6 +18,14 @@
     ?>
 
     <style>
+        .navbar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            z-index: 4;
+        }
+
         .dashboard {
             margin-left: 240px;
             margin-top: 65px;
@@ -58,14 +66,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-
-        .navbar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            z-index: 3;
         }
 
         .doctor-container {
@@ -114,11 +114,17 @@
         .doctor #start-appointment {
             margin-top: 10px;
             background-color: #0a8aca;
+            width: 150px;
         }
 
         .doctor #start-appointment:hover,
         .doctor #start-appointment:active {
             background-color: #056ea2;
+        }
+
+        .doctor #cancel-appointment {
+            margin-top: 10px;
+            width: 150px;
         }
     </style>
 </head>
@@ -228,6 +234,10 @@
                                         <div class="book">
 
                                             <button class="btn btn-primary" id="start-appointment" onclick="window.open('<?php echo $row['start_url'] ?>', '_blank'); " ;>START MEETING</button>
+
+                                            <br />
+
+                                            <button class="btn btn-danger" id="cancel-appointment" onclick="window.open('<?php echo $row['start_url'] ?>', '_self'); " ;>CANCEL MEETING</button>
                                         </div>
                                     </div>
                                 <?php } ?>

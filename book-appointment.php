@@ -60,6 +60,10 @@
             background-color: #299883 !important;
         }
 
+        .time-slot-button:disabled {
+            background-color: #54d5be;
+        }
+
         .modal-cross:active,
         .modal-cross:focus {
             box-shadow: none;
@@ -111,13 +115,13 @@
 
             <div class="appointment">
                 <h1>Book Appointment</h1>
-                <h4><strong>Dr. <?php echo $row['name'] ?></strong>
+                <h4>Choose your appointment slot with <strong>Dr. <?php echo $row['name'] ?></strong>
                     <span style="text-transform:capitalize;">
                         (<?php if ($row['specialization'] == 'other') {
                                 echo $row['other-s'];
                             } else {
                                 echo $row['specialization'];
-                            } ?>)</span> is available during the below slots
+                            } ?>)</span>
                 </h4>
             </div>
 
@@ -148,7 +152,11 @@
                                 $date = date('Y-m-d', $date);
                                 $currentdate = date('Y-m-d');
 
-                                if ($date != $currentdate || ($date == $currentdate && $start_time > $currenttime)) {
+                                $sql2 = "SELECT * FROM `appointment` WHERE `appointment_time` = '" . array_keys($row)[$i] . "' AND `appointment_date` = '" . $date . "'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                // $row2 = mysqli_fetch_assoc($result2);
+
+                                if (($date != $currentdate || ($date == $currentdate && $start_time > $currenttime)) && mysqli_num_rows($result2) == 0) {
                             ?>
 
                                     <button class="btn btn-primary time-slot-button" data-slot="<?php echo array_keys($row)[$i] ?>"><?php echo $row1['time'] ?></button>
@@ -182,8 +190,14 @@
                                             </div>
                                         </div>
                                     </div>
-                            <?php
+                                <?php
+                                } else { ?>
+                                    <button class="btn btn-primary time-slot-button" disabled><?php echo $row1['time'] ?></button>
+                                <?php
                                 }
+                            } else { ?>
+                                <button class="btn btn-primary time-slot-button" disabled><?php echo $row1['time'] ?></button>
+                            <?php
                             }
                             ?>
                         <?php } ?>
