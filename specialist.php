@@ -42,6 +42,7 @@
         .doctor .doctor-image img {
             height: 120px;
             margin-right: 20px;
+            border-radius: 50%;
         }
 
         .doctor .doctor-details {
@@ -198,7 +199,7 @@
                 ?>
                     <div class="doctor" style="user-select:none;">
                         <div class="doctor-image">
-                            <img src="./assests/images/doctor-avatar.png">
+                            <img src="./assests/images/doctor-avatar-specialist.png?t=<?php echo time(); ?>">
                         </div>
                         <div class="doctor-details">
                             <span class="doctor-name"><?php echo $row['name'] ?></span> </br>

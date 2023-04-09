@@ -3,11 +3,17 @@
 
 <head>
     <?php
+
     session_start();
 
-    $title = 'Appointment Payment';
-    include './includes/header.php';
-    include_once './db/db.php';
+    if (isset($_COOKIE['user_username']) && isset($_GET['doctor']) && isset($_GET['user']) && isset($_GET['date']) && isset($_GET['slot'])) {
+        $title = 'Appointment Payment';
+        include './includes/header.php';
+        include_once './db/db.php';
+    } else {
+        header("Location: ./user-login");
+        exit();
+    }
     ?>
 
     <style>
@@ -38,7 +44,7 @@
             font-weight: 700;
         }
 
-        #payment-form{
+        #payment-form {
             display: flex;
             justify-content: center;
             margin: 100px auto 200px;

@@ -11,6 +11,7 @@
         font-weight: 400;
         position: fixed;
         left: 0;
+        z-index: 4;
     }
 
     .icon i {
@@ -80,7 +81,7 @@
     <div class="sidebar">
 
         <div id="image">
-            <img src="https://img.freepik.com/free-icon/user_318-159711.jpg">
+            <img src="./assests/images/doctor-avatar.png?t=<?php echo time(); ?>">
             <div class="doctor-name">Dr. <?php echo $row['name'] ?></div>
             <div class="doctor-specialization">
                 <?php

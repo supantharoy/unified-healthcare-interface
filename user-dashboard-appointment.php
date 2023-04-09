@@ -103,7 +103,7 @@
             height: 140px;
         }
 
-        .doctor .doctor-image{
+        .doctor .doctor-image {
             width: 120px;
             text-align: center;
         }
@@ -118,7 +118,7 @@
             margin-left: 20px;
         }
 
-        .doctor .book{
+        .doctor .book {
             text-align: center;
             width: 150px;
         }
@@ -136,14 +136,19 @@
             text-transform: uppercase;
         }
 
-        .doctor #join-appointment {
+        .doctor .join-appointment {
             margin-top: 10px;
             background-color: #0a8aca;
         }
 
-        .doctor #join-appointment:hover,
-        .doctor #join-appointment:active {
+        .doctor .join-appointment:hover,
+        .doctor .join-appointment:active {
             background-color: #056ea2;
+        }
+
+        .doctor .refund-button {
+            margin-top: 10px;
+            width: 120px;
         }
 
         .star {
@@ -217,20 +222,29 @@
 
     <?php
 
-    if (isset($_SESSION['success'])) {
-        if ($_SESSION['success'] == 'check-email') { ?>
+    if (isset($_SESSION['success']) && $_SESSION['success'] == 'check-email') { ?>
 
-            <div class="alert-container" style="width: 460px;" id="mobile-alert-container">
-                <div class="alert alert-success alert-dismissible fade show">
-                    <strong>Appointment Confirmed!</strong> &nbsp;Please check your email
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" style="padding-right:0"></button>
-                </div>
+        <div class="alert-container" style="width: 420px;">
+            <div class="alert alert-success alert-dismissible fade show">
+                <strong>Appointment Confirmed!</strong> &nbsp;Please check your email
+                <button type="button" class="btn-close" data-bs-dismiss="alert" style="padding-right:0"></button>
             </div>
+        </div>
+
     <?php
-        }
-    }
+    } else if (isset($_SESSION['refund']) && $_SESSION['refund'] == 'initiated') { ?>
+
+        <div class="alert-container" style="width: 360px;">
+            <div class="alert alert-success alert-dismissible fade show">
+                <strong>Refund Initiated!</strong> &nbsp;Please check your email
+                <button type="button" class="btn-close" data-bs-dismiss="alert" style="padding-right:0"></button>
+            </div>
+        </div>
+
+    <?php }
 
     unset($_SESSION['success']);
+    unset($_SESSION['refund']);
     ?>
 
     <div class="dashboard">
@@ -248,7 +262,7 @@
                         <div class="doctor-container">
                             <?php
 
-                            $sql = "SELECT * FROM `appointment` WHERE `user` = '" . $_COOKIE['user_username'] . "' AND `appointment_date` < '" . date('Y-m-d') . "' OR `start_date_time` < '" . date('Y-m-d H:i:s') . "' ORDER BY `appointment_date` DESC, `start_date_time` DESC";
+                            $sql = "SELECT * FROM `appointment` WHERE `user` = '" . $_COOKIE['user_username'] . "' AND `cancelled` = 0 AND  `appointment_date` < '" . date('Y-m-d') . "' OR `start_date_time` < '" . date('Y-m-d H:i:s') . "' ORDER BY `appointment_date` DESC, `start_date_time` DESC";
 
                             $result = mysqli_query($conn, $sql);
 
@@ -278,7 +292,12 @@
                                         </div>
                                         <div class="doctor-details">
                                             <span class="doctor-name"><?php echo $row1['name'] ?></span> </br>
-                                            <span class="doctor-qualification"><?php echo $row1['qualification'] ?></span> </br>
+                                            <?php if ($row1['specialization'] == "other") { ?>
+                                                <span class="doctor-specialization"><?php echo $row1['other-s'] ?></span>
+                                            <?php } else { ?>
+                                                <span class="doctor-specialization"><?php echo $row1['specialization'] ?></span>
+                                            <?php } ?>
+                                            </br>
                                             <span class="appointment-date"><strong>Date: </strong><?php echo date("d-m-Y", strtotime($row['appointment_date'])) ?></span></br>
                                             <span class="appointment-date"><strong>Time: </strong><?php echo $row2['time'] ?></span></br>
                                         </div>
@@ -323,7 +342,7 @@
                         <div class="doctor-container">
                             <?php
 
-                            $sql = "SELECT * FROM `appointment` WHERE `user` = '" . $_COOKIE['user_username'] . "' AND `appointment_date` = '" . date('Y-m-d') . "' AND `start_date_time` > '" . date('Y-m-d H:i:s') . "' ORDER BY `start_date_time`";
+                            $sql = "SELECT * FROM `appointment` WHERE `user` = '" . $_COOKIE['user_username'] . "' AND `cancelled` = 0 AND `appointment_date` = '" . date('Y-m-d') . "' ORDER BY `start_date_time`";
 
                             $result = mysqli_query($conn, $sql);
 
@@ -353,7 +372,12 @@
                                         </div>
                                         <div class="doctor-details">
                                             <span class="doctor-name"><?php echo $row1['name'] ?></span> </br>
-                                            <span class="doctor-qualification"><?php echo $row1['qualification'] ?></span> </br>
+                                            <?php if ($row1['specialization'] == "other") { ?>
+                                                <span class="doctor-specialization"><?php echo $row1['other-s'] ?></span>
+                                            <?php } else { ?>
+                                                <span class="doctor-specialization"><?php echo $row1['specialization'] ?></span>
+                                            <?php } ?>
+                                            </br>
                                             <span class="appointment-date"><strong>Date: </strong><?php echo date("d-m-Y", strtotime($row['appointment_date'])) ?></span></br>
                                             <span class="appointment-date"><strong>Time: </strong><?php echo $row2['time'] ?></span></br>
                                         </div>
@@ -376,7 +400,7 @@
                                             }
                                             ?>
                                             </br>
-                                            <button class="btn btn-primary" id="join-appointment" <?php if ($row1['available'] == 0)  echo "disabled";  ?> onclick="window.open('<?php echo $row['join_url'] ?>', '_blank'); " ;>JOIN MEETING</button>
+                                            <button class="btn btn-primary join-appointment" <?php if ($row1['available'] == 0 ||  $row['start_date_time'] < date('Y-m-d H:i:s')) echo "disabled";  ?> onclick="window.open('<?php echo $row['join_url'] ?>', '_blank'); " ;>JOIN MEETING</button>
                                         </div>
                                     </div>
                                 <?php } ?>
@@ -396,13 +420,13 @@
                         <div class="doctor-container">
                             <?php
 
-                            $sql = "SELECT * FROM `appointment` WHERE `user` = '" . $_COOKIE['user_username'] . "' AND `appointment_date` > '" . date('Y-m-d') . "' AND `start_date_time` > '" . date('Y-m-d H:i:s') . "' ORDER BY `start_date_time`";
+                            $sql = "SELECT * FROM `appointment` WHERE `user` = '" . $_COOKIE['user_username'] . "' AND `cancelled` = 0 AND `appointment_date` > '" . date('Y-m-d') . "' AND `start_date_time` > '" . date('Y-m-d H:i:s') . "' ORDER BY `start_date_time`";
 
                             $result = mysqli_query($conn, $sql);
 
                             if (mysqli_num_rows($result) == 0) { ?>
 
-                                <h5 style="color: #ed2020; text-align:center; margin-top:20px">No Appointments are scheduled today!</h5>
+                                <h5 style="color: #ed2020; text-align:center; margin-top:20px">No Appointments are scheduled further!</h5>
 
                                 <?php
 
@@ -426,7 +450,12 @@
                                         </div>
                                         <div class="doctor-details">
                                             <span class="doctor-name"><?php echo $row1['name'] ?></span> </br>
-                                            <span class="doctor-qualification"><?php echo $row1['qualification'] ?></span> </br>
+                                            <?php if ($row1['specialization'] == "other") { ?>
+                                                <span class="doctor-specialization"><?php echo $row1['other-s'] ?></span>
+                                            <?php } else { ?>
+                                                <span class="doctor-specialization"><?php echo $row1['specialization'] ?></span>
+                                            <?php } ?>
+                                            </br>
                                             <span class="appointment-date"><strong>Date: </strong><?php echo date("d-m-Y", strtotime($row['appointment_date'])) ?></span></br>
                                             <span class="appointment-date"><strong>Time: </strong><?php echo $row2['time'] ?></span></br>
                                         </div>
@@ -449,7 +478,82 @@
                                             }
                                             ?>
                                             </br>
-                                            <button class="btn btn-primary" id="join-appointment" disabled>JOIN MEETING</button>
+                                            <button class="btn btn-primary join-appointment" disabled>JOIN MEETING</button>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="upcoming-container">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
+                        <strong style="color:#ed2020">CANCELLED</strong>
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse <?php if (isset($_GET['open']) && ($_GET['open'] == 'cancelled')) echo "show" ?>">
+                    <div class="accordion-body">
+                        <div class="doctor-container">
+                            <?php
+
+                            $sql = "SELECT * FROM `appointment` WHERE `user` = '" . $_COOKIE['user_username'] . "' AND `cancelled` = 1 ";
+
+                            $result = mysqli_query($conn, $sql);
+
+                            if (mysqli_num_rows($result) == 0) { ?>
+
+                                <h5 style="color: #ed2020; text-align:center; margin-top:20px">No Appointments have been cancelled yet!</h5>
+
+                                <?php
+
+                            } else {
+
+                                while ($row = mysqli_fetch_assoc($result)) {
+
+                                    $sql1 = "SELECT * FROM `doctor-login` WHERE `username` = '" . $row['doctor'] . "'";
+                                    $result1 = mysqli_query($conn, $sql1);
+                                    $row1 = mysqli_fetch_assoc($result1);
+
+
+                                    $sql2 = "SELECT * FROM `time-slots` WHERE `slot` = '" . $row['appointment_time'] . "'";
+                                    $result2 = mysqli_query($conn, $sql2);
+                                    $row2 = mysqli_fetch_assoc($result2);
+
+                                ?>
+                                    <div class="doctor" style="user-select:none;">
+                                        <div class="doctor-image">
+                                            <img src="./assests/images/doctor-avatar.png">
+                                        </div>
+                                        <div class="doctor-details">
+                                            <span class="doctor-name"><?php echo $row1['name'] ?></span> </br>
+                                            <?php if ($row1['specialization'] == "other") { ?>
+                                                <span class="doctor-specialization"><?php echo $row1['other-s'] ?></span>
+                                            <?php } else { ?>
+                                                <span class="doctor-specialization"><?php echo $row1['specialization'] ?></span>
+                                            <?php } ?>
+                                            </br>
+                                            <span class="appointment-date"><strong>Date: </strong><?php echo date("d-m-Y", strtotime($row['appointment_date'])) ?></span></br>
+                                            <span class="appointment-date"><strong>Time: </strong><?php echo $row2['time'] ?></span></br>
+                                        </div>
+                                        <div class="book">
+
+                                            <?php if ($row['refund'] == 0 and $row['alternative'] == 0) { ?>
+
+                                                <button class="btn btn-primary alternative-button" onclick="window.location.href = './alternate-booking.php?id=<?php echo $row['id'] ?>'" ;>ALTERNATIVE</button>
+
+                                                <button class="btn btn-success refund-button" onclick="window.location.href = './user-refund.php?id=<?php echo $row['id'] ?>'" ;>REFUND</button>
+
+                                            <?php } else if ($row['refund'] == 1 and $row['alternative'] == 0) { ?>
+
+                                                <span style="color:#03861d">Refund initiated.</span><br />We will notify you once it is processed.
+
+                                            <?php } else if ($row['refund'] == 2 and $row['alternative'] == 0) { ?>
+
+                                                <span style="color:#03861d">Refund Processed</span>
+
+                                            <?php } ?>
                                         </div>
                                     </div>
                                 <?php } ?>
@@ -485,11 +589,11 @@
                 success: function(result) {
                     // console.log($.parseJSON(result));
 
-                    // rating_percentage = rating / 5 * 100;
+                    rating_percentage = rating / 5 * 100;
 
-                    // $("#" + id).html(`<div class="stars-outer"> <div class="stars-inner" style="width:${rating_percentage}%"> </div> </div>`);
+                    $("#" + id).html(`<div class="stars-outer"> <div class="stars-inner" style="width:${rating_percentage}%"> </div> </div>`);
 
-                    $("#panelsStayOpen-collapseOne").load(location.href + " #panelsStayOpen-collapseOne>*", "");
+                    // $("#panelsStayOpen-collapseOne").load(location.href + " #panelsStayOpen-collapseOne>*", "");
 
                     $("#panelsStayOpen-collapseTwo").load(location.href + " #panelsStayOpen-collapseTwo>*", "");
 
@@ -497,6 +601,12 @@
 
                 },
             });
+        });
+
+        $('.time-slot-button').click(function() {
+
+            $('#modal-' + $(this).data("slot")).modal('show');
+
         });
 
         // appointment_id_inputs = document.getElementsByClassName("username");

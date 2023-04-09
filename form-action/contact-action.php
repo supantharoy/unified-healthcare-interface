@@ -42,7 +42,7 @@ if (isset($_POST['name'])) {
 
     $html1 = "<table border=1 style=\"border-collapse:collapse;font-size:1rem;text-align:center\"><thead><tr><th style=\"background-color: #cfcfcf; padding:10px 20px\">Name</th><th style=\"background-color: #cfcfcf; padding:10px 20px\">Email</th><th style=\"background-color: #cfcfcf; padding:10px 20px\">Subject</th><th style=\"background-color: #cfcfcf; padding:10px 20px\">Comments</th></tr></thead><tbody><tr><td style=\"padding:10px 20px\">$name</td><td style=\"padding:10px 20px\">$email</td><td style=\"padding:10px 20px\">$subject</td><td style=\"padding:10px 20px\">$comments</td></tr></tbody></table>";
 
-    $html2 = "<p style=\"font-size:1rem\">Hello $name,</p> <p style=\"font-size:1rem\">Thank you for contacting the UNIFIED HEALTHCARE INTERFACE!<br/>The developers will get back to you as soon as they can. Meanwhile check out our other services.</p><p style=\"font-size:1rem\"> Thanks for choosing us!<br/></p><p style=\"font-size:1rem\">Regards,<br/>Team Trix</p>";
+    $html2 = "<p style=\"font-size:1rem\">Hello $name,</p> <p style=\"font-size:1rem\">Thank you for contacting the UNIFIED HEALTHCARE INTERFACE!<br/>We will get back to you as soon as they can. Meanwhile check out our other services.</p><p style=\"font-size:1rem\"> Thanks for choosing us!<br/></p><p style=\"font-size:1rem\">Regards,<br/>UNIFIED HEALTHCARE INTERFACE</p>";
 
 
     $adminEmail = "unifiedhealthcareinterface@gmail.com";

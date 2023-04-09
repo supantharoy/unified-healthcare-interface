@@ -68,7 +68,7 @@
     <div class="sidebar">
 
         <div id="image">
-            <img src="https://img.freepik.com/free-icon/user_318-159711.jpg">
+            <img src="./assests/images/user-avatar.png?t=<?php echo time(); ?>">
             <div class="doctor-name"><?php echo $_COOKIE['user_username'] ?></div>
             <!-- <div class="doctor-specialization">Specialization</div> -->
         </div>

@@ -5,7 +5,6 @@
 
     <?php
 
-
     if (!isset($_COOKIE['user_username'])) {
         header("Location: ./user-login");
         exit();
@@ -14,7 +13,8 @@
     session_start();
 
     $title = 'Book Appointment';
-    include './includes/header.php'
+    include './includes/header.php';
+    include_once './db/db.php';
     ?>
 
     <style>
