@@ -16,7 +16,7 @@
 
         .team-name{
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
             text-transform: uppercase;
             letter-spacing: 2px;
             word-spacing: 5px;
@@ -30,7 +30,7 @@
             display: flex;
             justify-content: space-evenly;
             text-align: center;
-            margin: 20px 50px 120px;
+            margin: 35px 50px 120px;
         }
 
         .card,
@@ -88,7 +88,6 @@
     ?>
         <div class="team-name">
             <h1>About the Developers</h1>
-            <h3 style="margin-top:20px">Team Trix</h3>
         </div>
         <div class="card-container">
 
@@ -124,7 +123,7 @@
 
         <div class="error">
             <h3>
-                The developers are busy at this moment!
+                No details found!
             </h3>
             <h4>
                 Please visit later
