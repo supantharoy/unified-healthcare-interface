@@ -135,13 +135,15 @@
             margin-bottom: 5px;
         }
 
-        .doctor #book-appointment {
+        .doctor #book-appointment-same, .doctor #book-appointment-select {
             margin-top: 10px;
             background-color: #0a8aca;
         }
 
-        .doctor #book-appointment:hover,
-        .doctor #book-appointment:active {
+        .doctor #book-appointment-same:hover,
+        .doctor #book-appointment-same:active,
+        .doctor #book-appointment-select:hover,
+        .doctor #book-appointment-select:active {
             background-color: #056ea2;
         }
 
@@ -433,11 +435,9 @@
 
                         ?>
                         </br>
-                        <form action="./form-action/doctor-login-action" method="post" autocomplete="off" id="doctor-login-form">
 
-                            <button class="btn btn-primary" id="book-appointment-select" data-username="<?php echo $newdoctor['username'] ?>" <?php if ($newdoctor['available'] == 0) echo "disabled"; ?>>Book Appointment</button>
+                            <button class="btn btn-primary" id="book-appointment-select" data-username="<?php echo $newdoctor['username'] ?>" <?php if ($newdoctor['available'] == 0) echo "disabled"; ?> onclick="window.location.href = './book-appointment.php?id=<?php echo $id ?>&slot=select&doctor=<?php echo $newdoctor['username'] ?>'" ;>Book Appointment</button>
 
-                        </form>
                     </div>
                 </div>
             <?php } ?>

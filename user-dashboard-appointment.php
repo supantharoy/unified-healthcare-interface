@@ -291,12 +291,14 @@
                                             <img src="./assests/images/doctor-avatar.png">
                                         </div>
                                         <div class="doctor-details">
-                                            <span class="doctor-name"><?php echo $row1['name'] ?></span> </br>
+                                            <span class="doctor-name"><?php echo $row1['name'] ?></span>
                                             <?php if ($row1['specialization'] == "other") { ?>
-                                                <span class="doctor-specialization"><?php echo $row1['other-s'] ?></span>
+                                                <span class="doctor-specialization">(<?php echo $row1['other-s'] ?>)</span>
                                             <?php } else { ?>
-                                                <span class="doctor-specialization"><?php echo $row1['specialization'] ?></span>
+                                                <span class="doctor-specialization">(<?php echo $row1['specialization'] ?>)</span>
                                             <?php } ?>
+                                            </br>
+                                            <span class="appointment-id"><strong>Appointment ID: </strong><?php echo $row['id'] ?></span>
                                             </br>
                                             <span class="appointment-date"><strong>Date: </strong><?php echo date("d-m-Y", strtotime($row['appointment_date'])) ?></span></br>
                                             <span class="appointment-date"><strong>Time: </strong><?php echo $row2['time'] ?></span></br>
@@ -317,12 +319,8 @@
                                                     <div class="stars-outer">
                                                         <div class="stars-inner" style="width:<?php echo $row['rating'] / 5 * 100 ?>%"></div>
                                                     </div>
-
                                                 <?php } ?>
-
                                             </div>
-
-
                                         </div>
                                     </div>
                                 <?php } ?>
@@ -371,12 +369,14 @@
                                             <img src="./assests/images/doctor-avatar.png">
                                         </div>
                                         <div class="doctor-details">
-                                            <span class="doctor-name"><?php echo $row1['name'] ?></span> </br>
+                                            <span class="doctor-name"><?php echo $row1['name'] ?></span>
                                             <?php if ($row1['specialization'] == "other") { ?>
-                                                <span class="doctor-specialization"><?php echo $row1['other-s'] ?></span>
+                                                <span class="doctor-specialization">(<?php echo $row1['other-s'] ?>)</span>
                                             <?php } else { ?>
-                                                <span class="doctor-specialization"><?php echo $row1['specialization'] ?></span>
+                                                <span class="doctor-specialization">(<?php echo $row1['specialization'] ?>)</span>
                                             <?php } ?>
+                                            </br>
+                                            <span class="appointment-id"><strong>Appointment ID: </strong><?php echo $row['id'] ?></span>
                                             </br>
                                             <span class="appointment-date"><strong>Date: </strong><?php echo date("d-m-Y", strtotime($row['appointment_date'])) ?></span></br>
                                             <span class="appointment-date"><strong>Time: </strong><?php echo $row2['time'] ?></span></br>
@@ -449,12 +449,14 @@
                                             <img src="./assests/images/doctor-avatar.png">
                                         </div>
                                         <div class="doctor-details">
-                                            <span class="doctor-name"><?php echo $row1['name'] ?></span> </br>
+                                            <span class="doctor-name"><?php echo $row1['name'] ?></span>
                                             <?php if ($row1['specialization'] == "other") { ?>
-                                                <span class="doctor-specialization"><?php echo $row1['other-s'] ?></span>
+                                                <span class="doctor-specialization">(<?php echo $row1['other-s'] ?>)</span>
                                             <?php } else { ?>
-                                                <span class="doctor-specialization"><?php echo $row1['specialization'] ?></span>
+                                                <span class="doctor-specialization">(<?php echo $row1['specialization'] ?>)</span>
                                             <?php } ?>
+                                            </br>
+                                            <span class="appointment-id"><strong>Appointment ID: </strong><?php echo $row['id'] ?></span>
                                             </br>
                                             <span class="appointment-date"><strong>Date: </strong><?php echo date("d-m-Y", strtotime($row['appointment_date'])) ?></span></br>
                                             <span class="appointment-date"><strong>Time: </strong><?php echo $row2['time'] ?></span></br>
@@ -498,7 +500,7 @@
                         <div class="doctor-container">
                             <?php
 
-                            $sql = "SELECT * FROM `appointment` WHERE `user` = '" . $_COOKIE['user_username'] . "' AND `cancelled` = 1 ";
+                            $sql = "SELECT * FROM `appointment` WHERE `user` = '" . $_COOKIE['user_username'] . "' AND `cancelled` = 1 ORDER BY `start_date_time` DESC";
 
                             $result = mysqli_query($conn, $sql);
 
@@ -526,18 +528,20 @@
                                         <div class="doctor-image">
                                             <img src="./assests/images/doctor-avatar.png">
                                         </div>
-                                        <div class="doctor-details">
-                                            <span class="doctor-name"><?php echo $row1['name'] ?></span> </br>
+                                        <div class="doctor-details" style="margin-right:0">
+                                            <span class="doctor-name"><?php echo $row1['name'] ?></span>
                                             <?php if ($row1['specialization'] == "other") { ?>
-                                                <span class="doctor-specialization"><?php echo $row1['other-s'] ?></span>
+                                                <span class="doctor-specialization">(<?php echo $row1['other-s'] ?>)</span>
                                             <?php } else { ?>
-                                                <span class="doctor-specialization"><?php echo $row1['specialization'] ?></span>
+                                                <span class="doctor-specialization">(<?php echo $row1['specialization'] ?>)</span>
                                             <?php } ?>
+                                            </br>
+                                            <span class="appointment-id"><strong>Appointment ID: </strong><?php echo $row['id'] ?></span>
                                             </br>
                                             <span class="appointment-date"><strong>Date: </strong><?php echo date("d-m-Y", strtotime($row['appointment_date'])) ?></span></br>
                                             <span class="appointment-date"><strong>Time: </strong><?php echo $row2['time'] ?></span></br>
                                         </div>
-                                        <div class="book">
+                                        <div class="book" style="width:160px">
 
                                             <?php if ($row['refund'] == 0 and $row['alternative'] == 0) { ?>
 
@@ -547,11 +551,15 @@
 
                                             <?php } else if ($row['refund'] == 1 and $row['alternative'] == 0) { ?>
 
-                                                <span style="color:#03861d">Refund initiated.</span><br />We will notify you once it is processed.
+                                                <strong style="color:#03861d">Refund initiated</strong><br />We will notify you once it is processed.
 
                                             <?php } else if ($row['refund'] == 2 and $row['alternative'] == 0) { ?>
 
-                                                <span style="color:#03861d">Refund Processed</span>
+                                                <strong style="color:#03861d">Refund Processed</strong>
+
+                                            <?php } else if ($row['refund'] == 0 and $row['alternative'] != 0) { ?>
+
+                                                <span>Alternate Booking with <strong style="color:#03861d"> Appointment ID = <?php echo $row['alternative'] ?> </strong> has been confirmed!</span>
 
                                             <?php } ?>
                                         </div>

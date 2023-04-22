@@ -401,7 +401,7 @@
                         <div class="doctor-container">
                             <?php
 
-                            $sql = "SELECT * FROM `appointment` WHERE `doctor` = '" . $_COOKIE['doctor_username'] . "' AND `cancelled` = 1 ORDER BY `start_date_time`";
+                            $sql = "SELECT * FROM `appointment` WHERE `doctor` = '" . $_COOKIE['doctor_username'] . "' AND `cancelled` = 1 ORDER BY `start_date_time` DESC";
 
                             $result = mysqli_query($conn, $sql);
 

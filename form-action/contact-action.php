@@ -1,34 +1,8 @@
 <?php
 require_once './db/db.php';
 date_default_timezone_set("Asia/Kolkata");
-include('./smtp/PHPMailerAutoload.php');
+require_once './includes/emailSend.php';
 
-function emailSend($receiverEmail, $html, $subject)
-{
-    $adminEmail = 'unifiedhealthcareinterface@gmail.com';
-    $adminPassword = 'ouvmfpvwtvxvxtpu';
-
-    $mail = new PHPMailer(true);
-    $mail->isSMTP();
-    $mail->Host = "smtp.gmail.com";
-    $mail->Port = 587;
-    $mail->SMTPSecure = "tls";
-    $mail->SMTPAuth = true;
-    $mail->Username = $adminEmail;
-    $mail->Password = $adminPassword;
-    $mail->SetFrom($adminEmail);
-    $mail->addAddress($receiverEmail);
-    $mail->IsHTML(true);
-    $mail->Subject = $subject;
-    $mail->Body = $html;
-    $mail->SMTPOptions = array('ssl' => array(
-        'verify_peer' => false,
-        'verify_peer_name' => false,
-        'allow_self_signed' => false
-    ));
-
-    $mail->send();
-}
 
 if (isset($_POST['name'])) {
     $name = mysqli_real_escape_string($conn, $_POST['name']);
@@ -44,9 +18,11 @@ if (isset($_POST['name'])) {
 
     $html2 = "<p style=\"font-size:1rem\">Hello $name,</p> <p style=\"font-size:1rem\">Thank you for contacting the UNIFIED HEALTHCARE INTERFACE!<br/>We will get back to you as soon as they can. Meanwhile check out our other services.</p><p style=\"font-size:1rem\"> Thanks for choosing us!<br/></p><p style=\"font-size:1rem\">Regards,<br/>UNIFIED HEALTHCARE INTERFACE</p>";
 
+    include('./smtp/PHPMailerAutoload.php');
 
-    $adminEmail = "unifiedhealthcareinterface@gmail.com";
-    $adminPassword = "ouvmfpvwtvxvxtpu";
+
+    $adminEmail = "uhiindiaofficial@gmail.com";
+    $adminPassword = "apqyqrxvtmohysdt";
 
     emailSend($email, $html2, "Thank you for contacting UHI");
 

@@ -5,8 +5,8 @@
 // include(dirname(__FILE__ ) . '/../smtp/PHPMailerAutoload.php');
 function emailSend($receiverEmail, $html, $subject)
 {
-    $adminEmail = 'unifiedhealthcareinterface@gmail.com';
-    $adminPassword = 'ouvmfpvwtvxvxtpu';
+    $adminEmail = 'uhiindiaofficial@gmail.com';
+    $adminPassword = 'apqyqrxvtmohysdt';
 
     $mail = new PHPMailer(true);
     $mail->isSMTP();
@@ -16,7 +16,7 @@ function emailSend($receiverEmail, $html, $subject)
     $mail->SMTPAuth = true;
     $mail->Username = $adminEmail;
     $mail->Password = $adminPassword;
-    $mail->SetFrom($adminEmail);
+    $mail->SetFrom($adminEmail, 'UHI India');
     $mail->addAddress($receiverEmail);
     $mail->IsHTML(true);
     $mail->Subject = $subject;

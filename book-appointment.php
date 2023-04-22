@@ -103,7 +103,7 @@
 
     <?php
 
-    if (isset($_GET['doctor']) && isset($_GET['date'])) {
+    if (isset($_GET['doctor']) && isset($_GET['date']) && !isset($_GET['id'])) {
 
         if (mysqli_num_rows($result) == 0) {
     ?>
@@ -121,7 +121,7 @@
                                 echo $row['other-s'];
                             } else {
                                 echo $row['specialization'];
-                            } ?>)</span>
+                            } ?>)</span> on <?php echo $_GET['date'] ?>
                 </h4>
             </div>
 
@@ -182,6 +182,110 @@
                                                         <input type="hidden" id="date" name="date" value="<?php echo $_GET['date'] ?>">
                                                         <input type="hidden" id="slot" name="slot" value="<?php echo array_keys($row)[$i] ?>">
                                                         <button class="btn btn-primary" type="submit">
+                                                            PROCEED
+                                                        </button>
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php
+                                } else { ?>
+                                    <button class="btn btn-primary time-slot-button" disabled><?php echo $row1['time'] ?></button>
+                                <?php
+                                }
+                            } else { ?>
+                                <button class="btn btn-primary time-slot-button" disabled><?php echo $row1['time'] ?></button>
+                            <?php
+                            }
+                            ?>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
+            </div>
+        <?php
+        }
+    } else if (isset($_GET['doctor']) && isset($_GET['date']) && isset($_GET['id'])) {
+
+        if (mysqli_num_rows($result) == 0) {
+        ?>
+            <script>
+                window.location = "./specialist";
+            </script>
+        <?php
+        } else { ?>
+
+            <div class="appointment">
+                <h1>Book Appointment</h1>
+                <h4>Choose your appointment slot with <strong>Dr. <?php echo $row['name'] ?></strong>
+                    <span style="text-transform:capitalize;">
+                        (<?php if ($row['specialization'] == 'other') {
+                                echo $row['other-s'];
+                            } else {
+                                echo $row['specialization'];
+                            } ?>)</span> on <?php echo $_GET['date'] ?>
+                </h4>
+            </div>
+
+            <div class="time-slots-container">
+
+                <?php
+
+                $sql = "SELECT * FROM `doctor-availability` WHERE `username` = '" . $_GET['doctor'] . "'";
+                $result = mysqli_query($conn, $sql);
+
+                while ($row = mysqli_fetch_assoc($result)) {
+                ?>
+                    <div class="time-slots" style="user-select:none;">
+
+                        <?php for ($i = 2; $i < count($row); $i++) { ?>
+
+                            <?php
+                            $sql1 = "SELECT * FROM `time-slots` WHERE `slot` = '" . array_keys($row)[$i] . "'";
+                            $result1 = mysqli_query($conn, $sql1);
+                            $row1 = mysqli_fetch_assoc($result1);
+
+                            if ($row[array_keys($row)[$i]] == 1) {
+
+                                $start_time = explode(" - ", $row1['time']);
+                                $start_time = date("H:i:s", strtotime($start_time[0]));
+                                $currenttime = date('H:i:s');
+                                $date = strtotime($_GET['date']);
+                                $date = date('Y-m-d', $date);
+                                $currentdate = date('Y-m-d');
+
+                                $sql2 = "SELECT * FROM `appointment` WHERE `appointment_time` = '" . array_keys($row)[$i] . "' AND `appointment_date` = '" . $date . "'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                // $row2 = mysqli_fetch_assoc($result2);
+
+                                if (($date != $currentdate || ($date == $currentdate && $start_time > $currenttime)) && mysqli_num_rows($result2) == 0) {
+                            ?>
+
+                                    <button class="btn btn-primary time-slot-button" data-slot="<?php echo array_keys($row)[$i] ?>"><?php echo $row1['time'] ?></button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="modal-<?php echo array_keys($row)[$i] ?>" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="user-select:none;">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="modal-<?php echo array_keys($row)[$i] ?>Label">Confirmation</h1>
+                                                    <button type="button" class="btn-close modal-cross" data-bs-dismiss="modal" aria-label="Close" id="<?php echo array_keys($row)[$i] ?>-modal-close" shadow-none></button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    Your alternative appointment will be scheduled between <?php echo $row1['time'] ?> on <?php echo $_GET['date'] ?>. You do not have to pay any fees.
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+
+                                                    <form action="./form-action/book-alternative-appointment.php" method="post">
+                                                        <input type="hidden" id="id" name="id" value="<?php echo $_GET['id'] ?>">
+                                                        <input type="hidden" id="doctor" name="doctor" value="<?php echo $_GET['doctor'] ?>">
+                                                        <input type="hidden" id="user" name="user" value="<?php echo $_COOKIE['user_username'] ?>">
+                                                        <input type="hidden" id="date" name="date" value="<?php echo $_GET['date'] ?>">
+                                                        <input type="hidden" id="slot" name="slot" value="<?php echo array_keys($row)[$i] ?>">
+                                                        <button class="btn btn-primary" type="submit" name="alternate-booking">
                                                             PROCEED
                                                         </button>
                                                     </form>
