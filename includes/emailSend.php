@@ -5,8 +5,8 @@
 // include(dirname(__FILE__ ) . '/../smtp/PHPMailerAutoload.php');
 function emailSend($receiverEmail, $html, $subject)
 {
-    $adminEmail = 'windowsbackup2001@gmail.com';
-    $adminPassword = 'odhdnxsujnbqdnnd';
+    $adminEmail = 'supantharoyfm0007@gmail.com';
+    $adminPassword = 'pajetmnxxbizonva';
 
     $mail = new PHPMailer(true);
     $mail->isSMTP();
@@ -21,6 +21,7 @@ function emailSend($receiverEmail, $html, $subject)
     $mail->IsHTML(true);
     $mail->Subject = $subject;
     $mail->Body = $html;
+    $mail->Timeout = 20;
     $mail->SMTPOptions = array('ssl' => array(
         'verify_peer' => false,
         'verify_peer_name' => false,

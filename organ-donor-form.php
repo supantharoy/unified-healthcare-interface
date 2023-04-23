@@ -90,7 +90,7 @@
     </div>
 
     <div class="form-container">
-        <form method="get" id="organ-donor-form">
+        <form method="post" id="organ-donor-form" action="./form-action/organ-donor-action">
 
             <div class="input-group">
                 <label class="input-group-text" for="floatingName">Name</label>
