@@ -85,9 +85,13 @@
             <span class="icon"><i class="fas fa-calendar-alt"></i></span>Appointments
         </div>
         <hr />
-        <div class="menu"><span class="icon"><i class="fa-solid fa-circle-user"></i></span>Payment History</div>
+        <div class="menu">
+            <span class="icon"><i class="fa-solid fa-circle-user"></i></span>Payment History
+        </div>
         <hr />
-        <div class="menu"><span class="icon"><i class="fa-solid fa-hand-holding-heart"></i></span>Organ Donation</div>
+        <div class="menu" onclick="window.location.href = './user-dashboard-organ-donation'" ;>
+            <span class="icon"><i class="fa-solid fa-hand-holding-heart"></i></span>Organ Donation
+        </div>
         <hr />
         <div style="margin-top:110px">
             <hr />

@@ -135,7 +135,8 @@
             margin-bottom: 5px;
         }
 
-        .doctor #book-appointment-same, .doctor #book-appointment-select {
+        .doctor #book-appointment-same,
+        .doctor #book-appointment-select {
             margin-top: 10px;
             background-color: #0a8aca;
         }
@@ -208,7 +209,9 @@
     <?php } ?>
 
 
-    <?php if (!isset($_GET['slot'])) { ?>
+    <?php
+
+    if (!isset($_GET['slot'])) { ?>
 
         <div class="alternate-booking">
             <h1>Choose alternative booking Type</h1>
@@ -232,7 +235,9 @@
             </button>
         </div>
 
-        <?php } else if ($_GET['slot'] == 'same') {
+        <?php
+
+    } else if ($_GET['slot'] == 'same') {
 
 
         $sql = "SELECT * FROM `doctor-login` WHERE `username` = '" . $row['doctor'] . "';";
@@ -329,7 +334,45 @@
 
                                 ?>
                                 </br>
-                                <button class="btn btn-primary" id="book-appointment-same" data-username="<?php echo $newdoctor['username'] ?>" <?php if ($newdoctor['available'] == 0) echo "disabled"; ?> data-id="<?php echo $_GET['id'] ?>">Book Appointment</button>
+                                <button class="btn btn-primary book-appointment-same" id="book-appointment-same" data-username="<?php echo $newdoctor['username'] ?>" <?php if ($newdoctor['available'] == 0) echo "disabled"; ?> data-id="<?php echo $newdoctor['username'] ?>">Book Appointment</button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="modal-<?php echo $newdoctor['username'] ?>" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="user-select:none;">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="modal-<?php echo $newdoctor['username'] ?>Label">Confirmation</h1>
+                                                <button type="button" class="btn-close modal-cross" data-bs-dismiss="modal" aria-label="Close" id="<?php echo $newdoctor['username'] ?>-modal-close" shadow-none></button>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <?php
+                                                $sql_query = "SELECT * FROM `time-slots` WHERE `slot` = '" . $row['appointment_time'] . "'";
+                                                $result_query = mysqli_query($conn, $sql_query);
+                                                $slot = mysqli_fetch_assoc($result_query); ?>
+
+                                                Your alternative appointment will be scheduled at the same time between <?php echo $slot['time'] ?> on <?php echo date("d-m-Y", strtotime($row['appointment_date']))?>. You do not have to pay any fees.
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+
+                                                <form action="./form-action/book-same-alternative-appointment.php" method="post">
+                                                    <input type="hidden" id="id" name="id" value="<?php echo $_GET['id'] ?>">
+                                                    <input type="hidden" id="newdoctor" name="newdoctor" value="<?php echo $newdoctor['username'] ?>">
+                                                    <input type="hidden" id="user" name="user" value="<?php echo $row['user'] ?>">
+                                                    
+                                                    <input type="hidden" id="appointment_time" name="appointment_time" value="<?php echo $row['appointment_time'] ?>">
+
+                                                    <input type="hidden" id="date" name="date" value="<?php echo $row['appointment_date'] ?>">
+                                                    <button class="btn btn-primary" type="submit" name="same-alternate-booking">
+                                                        PROCEED
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                 <?php
@@ -363,7 +406,9 @@
         ?>
 
 
-    <?php } else if ($_GET['slot'] == 'select') {
+    <?php
+
+    } else if ($_GET['slot'] == 'select') {
 
 
         $sql = "SELECT * FROM `doctor-login` WHERE `username` = '" . $row['doctor'] . "';";
@@ -436,7 +481,7 @@
                         ?>
                         </br>
 
-                            <button class="btn btn-primary" id="book-appointment-select" data-username="<?php echo $newdoctor['username'] ?>" <?php if ($newdoctor['available'] == 0) echo "disabled"; ?> onclick="window.location.href = './book-appointment.php?id=<?php echo $id ?>&slot=select&doctor=<?php echo $newdoctor['username'] ?>'" ;>Book Appointment</button>
+                        <button class="btn btn-primary" id="book-appointment-select" data-username="<?php echo $newdoctor['username'] ?>" <?php if ($newdoctor['available'] == 0) echo "disabled"; ?> onclick="window.location.href = './book-appointment.php?id=<?php echo $id ?>&slot=select&doctor=<?php echo $newdoctor['username'] ?>'" ;>Book Appointment</button>
 
                     </div>
                 </div>
@@ -460,6 +505,12 @@
     </div> -->
 
     <script>
+        $('.book-appointment-same').click(function() {
+
+            $('#modal-' + $(this).data("id")).modal('show');
+
+        });
+
         $('#refund').click(function() {
 
             let id = $('#id').val();

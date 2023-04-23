@@ -21,8 +21,7 @@ if (isset($_POST['name'])) {
     include('./smtp/PHPMailerAutoload.php');
 
 
-    $adminEmail = "uhiindiaofficial@gmail.com";
-    $adminPassword = "apqyqrxvtmohysdt";
+    $adminEmail = "windowsbackup2001@gmail.com";
 
     emailSend($email, $html2, "Thank you for contacting UHI");
 
