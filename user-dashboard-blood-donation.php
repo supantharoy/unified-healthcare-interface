@@ -7,7 +7,7 @@
     session_start();
 
     if (isset($_COOKIE['user_username'])) {
-        $title = 'User Organ Donation';
+        $title = 'User Blood Donation';
         include './includes/header.php';
         include './includes/user-dashboard-sidebar.php';
         include './db/db.php';
@@ -68,7 +68,7 @@
 
     <?php
 
-    if (isset($_SESSION['organ_donor']) && $_SESSION['organ_donor'] == "success") { ?>
+    if (isset($_SESSION['blood_donor']) && $_SESSION['blood_donor'] == "success") { ?>
 
         <div class="alert-container" style="width: 470px;">
             <div class="alert alert-success alert-dismissible fade show">
@@ -78,7 +78,7 @@
         </div>
 
     <?php
-    } else if (isset($_SESSION['organ_recipient']) && $_SESSION['organ_recipient'] == 'success') { ?>
+    } else if (isset($_SESSION['blood_recipient']) && $_SESSION['blood_recipient'] == 'success') { ?>
 
         <div class="alert-container" style="width: 470px;">
             <div class="alert alert-success alert-dismissible fade show">
@@ -89,17 +89,17 @@
 
     <?php }
 
-    unset($_SESSION['organ_donor']);
-    unset($_SESSION['organ_recipient']);
+    unset($_SESSION['blood_donor']);
+    unset($_SESSION['blood_recipient']);
     ?>
 
     <div class="dashboard">
-        <h1>Organ Donation</h1>
+        <h1>Blood Donation</h1>
 
         <h3>Choose one</h3>
-        <h5>Need an organ transplant? <a href="./user-dashboard-organ-donors">Contact an organ donor</a></h5>
+        <h5>Do you need blood? <a href="./user-dashboard-blood-donors">Contact a blood donor</a></h5>
         <h4>OR</h4>
-        <h5>Willing to donate an organ? <a href="./user-dashboard-organ-donor-form">Become an organ donor</a></h5>
+        <h5>Willing to donate blood? <a href="./user-dashboard-blood-donor-form">Become a blood donor</a></h5>
     </div>
 </body>
 

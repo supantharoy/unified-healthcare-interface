@@ -74,26 +74,30 @@
         </div>
         <hr />
         <div class="menu" onclick="window.location.href = './user-dashboard'" ;>
-            <span class="icon"><i class="fa-solid fa-table"></i></span>Dashboard
+            <span class="icon"><i class="fa-solid fa-table"></i></span>&nbsp;Dashboard
         </div>
         <hr />
         <div class="menu" onclick="window.location.href = './user-dashboard-profile'" ;>
-            <span class="icon"><i class="fa-solid fa-circle-user"></i></span>Profile
+            <span class="icon"><i class="fa-solid fa-circle-user"></i></span>&nbsp;Profile
         </div>
         <hr />
         <div class="menu" onclick="window.location.href = './user-dashboard-appointment'" ;>
-            <span class="icon"><i class="fas fa-calendar-alt"></i></span>Appointments
+            <span class="icon"><i class="fas fa-calendar-alt"></i></span>&nbsp;Appointments
         </div>
         <hr />
         <div class="menu">
-            <span class="icon"><i class="fa-solid fa-circle-user"></i></span>Payment History
+            <span class="icon"><i class="fa-solid fa-circle-user"></i></span>&nbsp;Payment History
         </div>
         <hr />
         <div class="menu" onclick="window.location.href = './user-dashboard-organ-donation'" ;>
             <span class="icon"><i class="fa-solid fa-hand-holding-heart"></i></span>Organ Donation
         </div>
         <hr />
-        <div style="margin-top:110px">
+        <div class="menu" onclick="window.location.href = './user-dashboard-blood-donation'" ;>
+            <span class="icon"><i class="fa-solid fa-droplet"></i></span>&nbsp;&nbsp;Blood Donation
+        </div>
+        <hr />
+        <div style="margin-top:70px">
             <hr />
             <div class="menu" onclick="window.location.href = './logout?click=true'" ;><span class="icon"><i class="fas fa-sign-out-alt"></i></span>Log Out</div>
             <hr />

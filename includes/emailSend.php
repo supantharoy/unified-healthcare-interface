@@ -5,8 +5,8 @@
 // include(dirname(__FILE__ ) . '/../smtp/PHPMailerAutoload.php');
 function emailSend($receiverEmail, $html, $subject)
 {
-    $adminEmail = 'supantharoyfm0007@gmail.com';
-    $adminPassword = 'pajetmnxxbizonva';
+    $adminEmail = 'windowsbackup2001@gmail.com';
+    $adminPassword = 'oqkmynuxzlpnxavk';
 
     $mail = new PHPMailer(true);
     $mail->isSMTP();
