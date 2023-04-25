@@ -24,7 +24,7 @@ $html = '<div style="font-size:1rem"><p>Hello ' . $row['name'] . '!</p><p>' . $n
 
 include('../smtp/PHPMailerAutoload.php');
 
-emailSend($email, $html, "Organ Donation: " . $subject);
+emailSend($row['email'], $html, "Organ Donation: " . $subject);
 
 $_SESSION['organ_donor_contact'] = "success";
 

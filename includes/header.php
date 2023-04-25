@@ -28,6 +28,10 @@ date_default_timezone_set("Asia/Kolkata");
     <link href="./assests/font-awesome/css/all.css" rel="stylesheet">
     <link href="./assests/font-awesome/css/solid.css" rel="stylesheet">
 
+    <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+    </link>
+    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+
     <link rel="icon" type="image/png" href="./assests/images/logo.png?t=<?php echo time(); ?>">
 
     <style>
@@ -134,7 +138,7 @@ date_default_timezone_set("Asia/Kolkata");
             border-radius: 0;
             border-top-left-radius: 20px;
             border-bottom-left-radius: 20px;
-            width: 175px;
+            width: 180px;
         }
 
         #search-input:focus {
@@ -196,8 +200,14 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
 
-        select{
-            cursor:pointer;
+        select {
+            cursor: pointer;
+        }
+
+        .ui-autocomplete {
+            margin-top: 50px !important;
+            margin-left: 992px !important;
+            cursor: pointer;
         }
     </style>
 
@@ -225,14 +235,14 @@ date_default_timezone_set("Asia/Kolkata");
                                             ?>" href="./" title="Home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?php if (substr( $title, 0, 4 ) === "User")
+                        <a class="nav-link <?php if (substr($title, 0, 4) === "User")
                                                 echo "active";
                                             else
                                                 echo "not-active"
                                             ?>" href="./user-login" title="User Account">User</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?php if (substr($title, 0, 6 ) === "Doctor")
+                        <a class="nav-link <?php if (substr($title, 0, 6) === "Doctor" && $title != "Doctor Details")
                                                 echo "active";
                                             else
                                                 echo "not-active"
@@ -261,10 +271,16 @@ date_default_timezone_set("Asia/Kolkata");
                                             ?>" href="./contact">Contact</a>
                     </li>
                 </ul>
-                <form class="d-flex">
-                    <input class="form-control" type="search" placeholder="Search Doctors..." aria-label="Search" id="search-input">
-                    <button class="btn font-weight-500" type="submit" id="search" title="Search" style="text-transform: uppercase;"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </form>
+
+                <!-- <form class="d-flex"> -->
+                <input class="form-control" type="search" placeholder="Search Doctors..." aria-label="Search" id="search-input">
+                <button class="btn font-weight-500" type="submit" id="search" title="Search" style="text-transform: uppercase;"><i class="fa-solid fa-magnifying-glass"></i></button>
+
+                <!-- <div class="ui-widget">
+                    <label for="tags">Tags: </label>
+                    <input id="tags">
+                </div> -->
+                <!-- </form> -->
 
 
                 <div class="dropdown dropdown-pull-right">
@@ -304,6 +320,137 @@ date_default_timezone_set("Asia/Kolkata");
         searchInput.addEventListener('focusout', () => {
             search.style.boxShadow = "0 0 0px 0px #64626484";
         })
+
+        $(function() {
+
+            let usernames;
+
+            $.ajax({
+                url: "./form-action/doctor-get-details",
+                type: "post",
+                async: false,
+                data: "type=username",
+                success: function(result) {
+                    usernames = $.parseJSON(result);
+                },
+            });
+
+            let names;
+
+            $.ajax({
+                url: "./form-action/doctor-get-details",
+                type: "post",
+                async: false,
+                data: "type=name",
+                success: function(result) {
+                    names = $.parseJSON(result);
+                },
+            });
+
+            console.log(typeof(usernames));
+            console.log(typeof(names));
+
+            usernames_array = Object.values(usernames);
+            names_array = Object.values(names);
+
+            console.log(typeof(usernames_array));
+            console.log(typeof(names_array));
+
+
+            var doctor_details = [];
+            
+            for (i=0; i<usernames.length;i++){
+                var singleObj = {};
+                singleObj['value'] = names_array[i];
+                singleObj['link'] = 'http://localhost/UHI/doctor-details?dn=' + usernames_array[i];
+                doctor_details.push(singleObj);
+            }
+            // names_array.forEach(function(entry) {
+            //     var singleObj = {}
+            //     singleObj['value'] = entry;
+            //     singleObj['link'] = 'http://localhost/UHI/doctor-details?';
+            //     listOfObjects.push(singleObj);
+            // });
+
+            // console.log(doctor_details);
+
+            // var availableTags = [{
+            //         value: "ActionScript",
+            //         link: 'https://google.com'
+            //     },
+            //     {
+            //         value: "AppleScript",
+            //         link: 'https://google.com'
+            //     },
+            //     {
+            //         value: "Asp",
+            //         link: 'https://google.com'
+            //     },
+            //     {
+            //         value: "BASIC",
+            //         link: 'https://google.com'
+            //     },
+            //     {
+            //         value: "C",
+            //         link: 'https://google.com'
+            //     },
+            //     {
+            //         value: "C++",
+            //         link: 'https://google.com'
+            //     },
+            //     {
+            //         value: "Clojure",
+            //         link: 'https://google.com'
+            //     },
+            //     {
+            //         value: "COBOL",
+            //         link: 'https://google.com'
+            //     },
+            //     {
+            //         value: "ColdFusion",
+            //         link: 'https://google.com'
+            //     },
+            //     {
+            //         value: "Erlang",
+            //         link: 'https://google.com'
+            //     },
+            //     {
+            //         value: "Fortran",
+            //         link: 'https://google.com'
+            //     },
+            //     {
+            //         value: "Groovy",
+            //         link: 'https://google.com'
+            //     },
+            //     {
+            //         value: "Haskell",
+            //         link: 'https://google.com'
+            //     },
+            //     {
+            //         value: "Java",
+            //         link: 'https://google.com'
+            //     },
+            //     {
+            //         value: "JavaScript",
+            //         link: 'https://google.com'
+            //     },
+            //     {
+            //         value: "Lisp",
+            //         link: 'https://google.com'
+            //     },
+
+            // ];
+
+            console.log((doctor_details));
+
+            $("#search-input").autocomplete({
+                source: doctor_details,
+                select: function(event, ui) {
+                    console.log(ui.item.link);
+                    window.location = ui.item.link;
+                }
+            });
+        });
     </script>
 </body>
 

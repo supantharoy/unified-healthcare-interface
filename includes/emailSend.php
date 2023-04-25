@@ -7,6 +7,8 @@ function emailSend($receiverEmail, $html, $subject)
 {
     $adminEmail = 'windowsbackup2001@gmail.com';
     $adminPassword = 'oqkmynuxzlpnxavk';
+    // supantharoyfm0003
+    // spccayjlazctumxg
 
     $mail = new PHPMailer(true);
     $mail->isSMTP();

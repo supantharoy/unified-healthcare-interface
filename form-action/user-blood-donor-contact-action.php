@@ -24,7 +24,7 @@ $html = '<div style="font-size:1rem"><p>Hello ' . $row['name'] . '!</p><p>' . $n
 
 include('../smtp/PHPMailerAutoload.php');
 
-emailSend($email, $html, "Blood Donation: " . $subject);
+emailSend($row['email'], $html, "Blood Donation: " . $subject);
 
 $_SESSION['blood_donor_contact'] = "success";
 

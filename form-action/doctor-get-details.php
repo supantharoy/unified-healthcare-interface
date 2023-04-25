@@ -16,6 +16,17 @@ if ($type == 'username') {
     }
 
     echo json_encode($usernames);
+} else if ($type == 'name') {
+
+    $sql = "SELECT `name` FROM `doctor-login`";
+
+    $result = mysqli_query($conn, $sql);
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $names[] = $row['name'];
+    }
+
+    echo json_encode($names);
 } else if ($type == 'email') {
 
     $sql = "SELECT `email` FROM `doctor-login`";

@@ -61,6 +61,11 @@
         color: #0e4066;
         /* color:#3aa592; */
     }
+
+    .ui-autocomplete {
+        margin-top: 50px !important;
+        margin-left: 1005px !important;
+    }
 </style>
 
 <body>
@@ -85,10 +90,6 @@
             <span class="icon"><i class="fas fa-calendar-alt"></i></span>&nbsp;Appointments
         </div>
         <hr />
-        <div class="menu">
-            <span class="icon"><i class="fa-solid fa-circle-user"></i></span>&nbsp;Payment History
-        </div>
-        <hr />
         <div class="menu" onclick="window.location.href = './user-dashboard-organ-donation'" ;>
             <span class="icon"><i class="fa-solid fa-hand-holding-heart"></i></span>Organ Donation
         </div>
@@ -97,7 +98,7 @@
             <span class="icon"><i class="fa-solid fa-droplet"></i></span>&nbsp;&nbsp;Blood Donation
         </div>
         <hr />
-        <div style="margin-top:70px">
+        <div style="margin-top:105px">
             <hr />
             <div class="menu" onclick="window.location.href = './logout?click=true'" ;><span class="icon"><i class="fas fa-sign-out-alt"></i></span>Log Out</div>
             <hr />

@@ -97,7 +97,7 @@
         <h1>Blood Donation</h1>
 
         <h3>Choose one</h3>
-        <h5>Do you need blood? <a href="./user-dashboard-blood-donors">Contact a blood donor</a></h5>
+        <h5>In need of blood units? <a href="./user-dashboard-blood-donors">Contact a blood donor</a></h5>
         <h4>OR</h4>
         <h5>Willing to donate blood? <a href="./user-dashboard-blood-donor-form">Become a blood donor</a></h5>
     </div>
